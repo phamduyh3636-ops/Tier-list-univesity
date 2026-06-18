@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tier List Top 10 Đại Học Việt Nam</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #161920;
+    --border: #252a36;
+    --text: #e2e8f0;
+    --muted: #6b7280;
+    --accent: #f59e0b;
+
+    --s: #ffd700;
+    --a: #4ade80;
+    --b: #60a5fa;
+    --c: #c084fc;
+    --d: #f87171;
+    --f: #6b7280;
+
+    --plus: #4ade80;
+    --minus: #f87171;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    min-height: 100vh;
+    padding: 32px 16px 64px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .legend-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+
+  /* Tier rows */
+  .tier-section {
+    max-width: 900px;
+    margin: 0 auto 12px;
+  }
+
+  .tier-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin-bottom: 10px;
+  }
+
+  .tier-label {
+    width: 64px;
+    min-width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .tier-label.s { background: #3d2e00; color: var(--s); border-right: 3px solid var(--s); }
+  .tier-label.a { background: #0d2e1a; color: var(--a); border-right: 3px solid var(--a); }
+  .tier-label.b { background: #0d1e2e; color: var(--b); border-right: 3px solid var(--b); }
+  .tier-label.c { background: #1e0d2e; color: var(--c); border-right: 3px solid var(--c); }
+  .tier-label.d { background: #2e0d0d; color: var(--d); border-right: 3px solid var(--d); }
+  .tier-label.f { background: #1a1a1a; color: var(--f); border-right: 3px solid var(--f); }
+
+  .tier-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+    align-items: center;
+    flex: 1;
+  }
+
+  .card {
+    background: #1e2330;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+    position: relative;
+    min-width: 180px;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .card-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .card-abbr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .card-scores {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .score-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    title: "";
+  }
+
+  .score-dot.hit { background: #1a3a1a; border: 1.5px solid var(--plus); color: var(--plus); }
+  .score-dot.miss { background: #3a1a1a; border: 1.5px solid var(--minus); color: var(--minus); }
+
+  .special-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-top: 5px;
+    font-weight: 700;
+  }
+  .special-tag.up { background: #0d3a0d; color: var(--plus); border: 1px solid var(--plus); }
+  .special-tag.down { background: #3a0d0d; color: var(--minus); border: 1px solid var(--minus); }
+  .special-tag.note { background: #2e2a0d; color: var(--accent); border: 1px solid var(--accent); }
+
+  /* Detail panel */
+  .detail-panel {
+    max-width: 900px;
+    margin: 0 auto 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: none;
+  }
+
+  .detail-panel.active {
+    display: block;
+  }
+
+  .detail-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .detail-name {
+    font-size: 22px;
+    font-weight: 900;
+    color: #fff;
+  }
+
+  .detail-abbr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .detail-tier-badge {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 6px;
+  }
+
+  .detail-body {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .detail-body { grid-template-columns: 1fr; }
+  }
+
+  .criterion-block {
+    background: #1e2330;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+  }
+
+  .criterion-block.full { grid-column: 1 / -1; }
+
+  .crit-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .crit-icon {
+    font-size: 16px;
+  }
+
+  .crit-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .crit-status {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .crit-status.pass { background: #0d2e0d; color: var(--plus); }
+  .crit-status.fail { background: #2e0d0d; color: var(--minus); }
+
+  .crit-evidence {
+    font-size: 13px;
+    color: #b0b8c8;
+    line-height: 1.5;
+  }
+
+  .crit-evidence strong { color: #fff; }
+
+  .special-block {
+    background: #1e2330;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    grid-column: 1 / -1;
+  }
+
+  .overrated-note {
+    border-left: 3px solid var(--minus);
+    background: #200d0d;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #d0a0a0;
+    margin-top: 8px;
+  }
+
+  .underrated-note {
+    border-left: 3px solid var(--plus);
+    background: #0d200d;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a0d0a0;
+    margin-top: 8px;
+  }
+
+  /* Scoring key */
+  .key-section {
+    max-width: 900px;
+    margin: 32px auto 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+
+  .key-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .key-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px;
+  }
+
+  .key-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .key-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  .tier-formula {
+    margin-top: 16px;
+    background: #1e2330;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .tier-formula span { color: var(--accent); }
+
+  .close-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 0 24px 16px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+
+  .close-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .dot-legend {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .dot-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .hint {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">Góc nhìn cá nhân · Dữ liệu 2024–2025</div>
+  <h1>Top 10 ĐH Việt Nam<br><span>Tier List Thực Chiến</span></h1>
+  <p class="subtitle">Xếp hạng theo ROI thực tế: chi phí thấp, có việc làm, kiến thức tư duy tốt · Bấm vào từng trường để xem chi tiết bằng chứng</p>
+</div>
+
+<!-- Key -->
+<div class="key-section">
+  <div class="key-title">Bộ tiêu chí chấm điểm</div>
+  <div class="key-grid">
+    <div class="key-item"><div class="key-dot hit" style="background:#1a3a1a;border:1.5px solid #4ade80;color:#4ade80">N</div> Ngành linh hoạt</div>
+    <div class="key-item"><div class="key-dot hit" style="background:#1a3a1a;border:1.5px solid #4ade80;color:#4ade80">C</div> Chi phí thấp</div>
+    <div class="key-item"><div class="key-dot hit" style="background:#1a3a1a;border:1.5px solid #4ade80;color:#4ade80">V</div> CV đẹp / việc làm</div>
+    <div class="key-item"><div class="key-dot hit" style="background:#1a3a1a;border:1.5px solid #4ade80;color:#4ade80">R</div> Nghiên cứu & Quốc tế</div>
+    <div class="key-item"><div class="key-dot hit" style="background:#1a3a1a;border:1.5px solid #4ade80;color:#4ade80">A</div> Alumni & Network</div>
+  </div>
+  <div class="tier-formula">
+    <span>+1 tier</span> mỗi tiêu chí đạt · Tier gốc = F<br>
+    <span>Đặc biệt +1</span> nếu điểm đầu vào vừa phải nhưng đầu ra xuất sắc (ROI cao)<br>
+    <span>Đặc biệt −1</span> nếu điểm đầu vào quá cao / quá khó thi vào (giảm khả năng tiếp cận)
+  </div>
+</div>
+
+<br>
+<p class="hint">↓ Bấm vào từng trường để xem bằng chứng chi tiết</p>
+
+<!-- Detail panel -->
+<div class="detail-panel" id="detail-panel">
+  <div class="detail-header">
+    <div>
+      <div class="detail-name" id="d-name"></div>
+      <div class="detail-abbr" id="d-abbr"></div>
+    </div>
+    <div class="detail-tier-badge" id="d-tier-badge"></div>
+  </div>
+  <div class="detail-body" id="d-body"></div>
+  <button class="close-btn" onclick="closeDetail()">✕ Đóng</button>
+</div>
+
+<!-- TIER S -->
+<div class="tier-section">
+  <div class="tier-row">
+    <div class="tier-label s">S</div>
+    <div class="tier-cards">
+      <div class="card" onclick="showDetail('hust')">
+        <div class="card-name">Bách Khoa Hà Nội</div>
+        <div class="card-abbr">HUST · HN</div>
+        <div class="card-scores">
+          <div class="score-dot hit" title="Ngành linh hoạt">N</div>
+          <div class="score-dot hit" title="Chi phí">C</div>
+          <div class="score-dot hit" title="CV/Việc làm">V</div>
+          <div class="score-dot hit" title="Nghiên cứu & QT">R</div>
+          <div class="score-dot hit" title="Alumni">A</div>
+        </div>
+        <div><span class="special-tag up">+1 ROI cao</span></div>
+      </div>
+      <div class="card" onclick="showDetail('vnu-hcm')">
+        <div class="card-name">ĐHQG TP.HCM</div>
+        <div class="card-abbr">VNU-HCM · HCM</div>
+        <div class="card-scores">
+          <div class="score-dot hit" title="Ngành linh hoạt">N</div>
+          <div class="score-dot hit" title="Chi phí">C</div>
+          <div class="score-dot hit" title="CV/Việc làm">V</div>
+          <div class="score-dot hit" title="Nghiên cứu & QT">R</div>
+          <div class="score-dot hit" title="Alumni">A</div>
+        </div>
+        <div><span class="special-tag up">+1 ROI cao</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER A -->
+  <div class="tier-row">
+    <div class="tier-label a">A</div>
+    <div class="tier-cards">
+      <div class="card" onclick="showDetail('vnu-hn')">
+        <div class="card-name">ĐHQG Hà Nội</div>
+        <div class="card-abbr">VNU-HN · HN</div>
+        <div class="card-scores">
+          <div class="score-dot hit">N</div>
+          <div class="score-dot hit">C</div>
+          <div class="score-dot hit">V</div>
+          <div class="score-dot hit">R</div>
+          <div class="score-dot miss">A</div>
+        </div>
+        <div><span class="special-tag up">+1 ROI cao</span></div>
+      </div>
+      <div class="card" onclick="showDetail('ueh')">
+        <div class="card-name">ĐH Kinh tế TP.HCM</div>
+        <div class="card-abbr">UEH · HCM</div>
+        <div class="card-scores">
+          <div class="score-dot hit">N</div>
+          <div class="score-dot hit">C</div>
+          <div class="score-dot hit">V</div>
+          <div class="score-dot miss">R</div>
+          <div class="score-dot hit">A</div>
+        </div>
+        <div><span class="special-tag up">+1 ROI cao</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER B -->
+  <div class="tier-row">
+    <div class="tier-label b">B</div>
+    <div class="tier-cards">
+      <div class="card" onclick="showDetail('neu')">
+        <div class="card-name">ĐH Kinh tế Quốc dân</div>
+        <div class="card-abbr">NEU · HN</div>
+        <div class="card-scores">
+          <div class="score-dot miss">N</div>
+          <div class="score-dot hit">C</div>
+          <div class="score-dot hit">V</div>
+          <div class="score-dot miss">R</div>
+          <div class="score-dot hit">A</div>
+        </div>
+        <div><span class="special-tag note">Chuyên sâu Kinh tế</span></div>
+      </div>
+      <div class="card" onclick="showDetail('udn')">
+        <div class="card-name">ĐH Đà Nẵng</div>
+        <div class="card-abbr">UDN · ĐN</div>
+        <div class="card-scores">
+          <div class="score-dot hit">N</div>
+          <div class="score-dot hit">C</div>
+          <div class="score-dot hit">V</div>
+          <div class="score-dot miss">R</div>
+          <div class="score-dot miss">A</div>
+        </div>
+        <div><span class="special-tag up">+1 ROI cao miền Trung</span></div>
+      </div>
+      <div class="card" onclick="showDetail('tdtu')">
+        <div class="card-name">Tôn Đức Thắng</div>
+        <div class="card-abbr">TDTU · HCM</div>
+        <div class="card-scores">
+          <div class="score-dot miss">N</div>
+          <div class="score-dot miss">C</div>
+          <div class="score-dot hit">V</div>
+          <div class="score-dot hit">R</div>
+          <div class="score-dot hit">A</div>
+        </div>
+        <div><span class="special-tag note">Nghiên cứu mạnh</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER C -->
+  <div class="tier-row">
+    <div class="tier-label c">C</div>
+    <div class="tier-cards">
+      <div class="card" onclick="showDetail('dtu')">
+        <div class="card-name">ĐH Duy Tân</div>
+        <div class="card-abbr">DTU · ĐN</div>
+        <div class="card-scores">
+          <div class="score-dot hit">N</div>
+          <div class="score-dot hit">C</div>
+          <div class="score-dot miss">V</div>
+          <div class="score-dot hit">R</div>
+          <div class="score-dot miss">A</div>
+        </div>
+        <div><span class="special-tag note">QS ranking nhưng yếu alumni</span></div>
+      </div>
+      <div class="card" onclick="showDetail('hue')">
+        <div class="card-name">ĐH Huế</div>
+        <div class="card-abbr">HU · Huế</div>
+        <div class="card-scores">
+          <div class="score-dot hit">N</div>
+          <div class="score-dot hit">C</div>
+          <div class="score-dot miss">V</div>
+          <div class="score-dot miss">R</div>
+          <div class="score-dot miss">A</div>
+        </div>
+        <div><span class="special-tag up">+1 ROI miền Trung</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER D (FPT) -->
+  <div class="tier-row">
+    <div class="tier-label d">D</div>
+    <div class="tier-cards">
+      <div class="card" onclick="showDetail('fpt')">
+        <div class="card-name">ĐH FPT</div>
+        <div class="card-abbr">FPTU · Cả nước</div>
+        <div class="card-scores">
+          <div class="score-dot miss">N</div>
+          <div class="score-dot miss">C</div>
+          <div class="score-dot hit">V</div>
+          <div class="score-dot miss">R</div>
+          <div class="score-dot hit">A</div>
+        </div>
+        <div><span class="special-tag down">OVERRATED · Truyền thông &gt; thực chất</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail data -->
+<script>
+const data = {
+  hust: {
+    name: "Đại học Bách Khoa Hà Nội",
+    abbr: "HUST · Hà Nội · Est. 1956",
+    tier: "S",
+    tierColor: "#ffd700",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: true, evidence: "<strong>64 ngành/chương trình</strong> đào tạo (2024). Bao gồm kỹ thuật, CNTT, kinh tế, vật lý, hóa học. Chuyển ngành nội bộ khả thi qua hệ thống tín chỉ linh hoạt." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "Chương trình chuẩn: <strong>28–35 triệu đồng/năm</strong> (2025–2026), tăng nhẹ ~4–5tr so với năm trước. Quỹ học bổng KKHT: <strong>~70 tỷ đồng/năm</strong>. Học bổng trao đổi nước ngoài 5 tỷ đồng. Học bổng Trần Đại Nghĩa 50–100% cho diện khó khăn." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "Top 3 VNUR-2025. <strong>Hợp tác với Samsung, LG, Mitsubishi, Siemens, Bosch, TSMC</strong> — hơn 50 tập đoàn đa quốc gia. Kỹ sư Bách Khoa là brand cực mạnh với nhà tuyển dụng kỹ thuật." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: true, evidence: "<strong>Hợp tác 200+ trường thế giới</strong>, trong đó 58 trường top 200 QS và 124 trường top 500. Danh sách công bố Scopus/WOS năm học 2024–2025 được công bố công khai. Hội nghị SV NCKH thường niên (lần 41 năm 2024)." },
+      { icon: "🤝", label: "Alumni & Network", pass: true, evidence: "Hơn <strong>200.000 kỹ sư, thạc sĩ, tiến sĩ</strong> ra trường sau 68 năm. Alumni nắm các vị trí lãnh đạo kỹ thuật lớn trong nước và quốc tế. Cộng đồng cựu sinh viên rất mạnh." },
+    ],
+    special: { type: "up", label: "+1 ROI Cao", text: "Điểm đầu vào cạnh tranh nhưng <strong>không cực đoan</strong> — nhiều ngành từ 24–27 điểm. Với mức học phí công lập và mạng lưới doanh nghiệp hạng A, đây là ROI tốt nhất thị trường. <strong>Underrated theo quan điểm cá nhân</strong>: bị một số người coi thường (YKR) dù là top 1 kỹ thuật VN." },
+    underrated: true,
+  },
+  'vnu-hcm': {
+    name: "Đại học Quốc gia TP.HCM",
+    abbr: "VNU-HCM · TP.HCM · Est. 1995",
+    tier: "S",
+    tierColor: "#ffd700",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: true, evidence: "Hệ thống gồm <strong>8 trường thành viên</strong>: Bách Khoa, KHTN, KHXH-NV, Kinh tế-Luật, Quốc tế, Công nghệ Thông tin,... → đa ngành cực kỳ cao, chuyển ngang trong hệ thống dễ dàng." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "Học phí các trường thành viên công lập duy trì ở mức vừa phải (tương đương Bách Khoa HN). Nhiều học bổng trong hệ thống và từ doanh nghiệp FDI tại KV miền Nam." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "<strong>Top 2 VNUR liên tục 3 năm</strong>. Đứng đầu tiêu chí Việc làm SV tốt nghiệp QS 2024 trong các trường VN (21.6 điểm). Vị trí chiến lược tại TP.HCM — trung tâm kinh tế lớn nhất VN." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: true, evidence: "<strong>Top 6 trường VN trong QS WUR 2025</strong>. Tổ chức kỳ thi đánh giá năng lực riêng. Chương trình học bổng sau đại học yêu cầu bài báo Scopus/WOS. Hợp tác nghiên cứu quốc tế rộng." },
+      { icon: "🤝", label: "Alumni & Network", pass: true, evidence: "Hệ thống lớn nhất miền Nam với hàng trăm nghìn cựu sinh viên. Alumni phủ khắp ngành kinh tế, kỹ thuật, luật, IT tại TP.HCM và cả nước." },
+    ],
+    special: { type: "up", label: "+1 ROI Cao", text: "Điểm đầu vào phân hóa tốt — từ dễ (một số ngành KHXH) đến vừa (kỹ thuật, IT). Chi phí công lập, nhưng vị thế dẫn đầu QS và VNUR khiến CV cực đẹp. Hệ thống đa ngành khổng lồ = linh hoạt cao nhất." },
+  },
+  'vnu-hn': {
+    name: "Đại học Quốc gia Hà Nội",
+    abbr: "VNU-HN · Hà Nội · Est. 1993",
+    tier: "A",
+    tierColor: "#4ade80",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: true, evidence: "Hệ thống đa trường: KHTN, KHXH-NV, Ngoại Ngữ, Luật, Giáo dục, Kinh tế... <strong>Rất đa dạng ngành</strong>. Chuyển đổi nội bộ khả thi." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "Học phí công lập, nhiều ngành dưới 20 triệu/năm. Quỹ học bổng nội bộ và từ doanh nghiệp. <strong>Top 1 VNUR 2025</strong> nhưng học phí vẫn vừa phải." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "<strong>#1 VNUR-2025 liên tục 3 năm</strong>. Vào nhóm 851-900 QS WUR 2025. Thương hiệu mạnh với nhà tuyển dụng học thuật, nhà nước, và doanh nghiệp lớn ở Hà Nội." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: true, evidence: "Dẫn đầu tiêu chí nghiên cứu trong VNUR. Kỳ thi đánh giá năng lực (HSA) uy tín. <strong>Tổ chức thi đánh giá năng lực riêng</strong> được 100+ trường chấp nhận." },
+      { icon: "🤝", label: "Alumni & Network", pass: false, evidence: "Alumni rộng nhưng chủ yếu <strong>thiên về hàn lâm, nhà nước</strong>. Mạng lưới doanh nghiệp tư nhân và FDI yếu hơn VNU-HCM hay HUST. Ít liên kết trực tiếp với ngành công nghiệp." },
+    ],
+    special: { type: "up", label: "+1 ROI Cao", text: "Điểm đầu vào phân hóa tốt tùy ngành. Chi phí thấp, thứ hạng QS cao, VNUR #1 → CV vẫn đẹp. Tuy nhiên thiếu mạng lưới doanh nghiệp mạnh nên bị đánh giá thấp hơn S." },
+  },
+  ueh: {
+    name: "ĐH Kinh tế TP.HCM",
+    abbr: "UEH · TP.HCM · Est. 1976",
+    tier: "A",
+    tierColor: "#4ade80",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: true, evidence: "UEH mở rộng thành <strong>hệ thống đa ngành</strong> với UEH College of Business, College of Technology, College of Law... không còn thuần kinh tế. Chuyển đổi trong hệ thống dễ dàng hơn." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "Học phí công lập vừa phải, tương đương các trường công khác. Nhiều học bổng từ doanh nghiệp tài chính – ngân hàng – kế toán tại TP.HCM." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "<strong>Top 7–8 VNUR</strong>. Brand UEH rất mạnh trong lĩnh vực kinh tế, tài chính, kế toán miền Nam. Doanh nghiệp TP.HCM ưu tiên tuyển sinh viên UEH cho vị trí tài chính." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: false, evidence: "Nghiên cứu <strong>yếu hơn đáng kể</strong> so với các trường kỹ thuật hay 2 ĐHQG. Ít công bố quốc tế. QS Asia 2025: hạng 369 — thấp hơn HUST (388) dù UEH chuyên kinh tế." },
+      { icon: "🤝", label: "Alumni & Network", pass: true, evidence: "Alumni cực mạnh trong ngành tài chính – ngân hàng – kế toán miền Nam. <strong>Nhiều CFO, CEO các công ty niêm yết</strong> là cựu sinh viên UEH. Mạng lưới doanh nghiệp TP.HCM chặt chẽ." },
+    ],
+    special: { type: "up", label: "+1 ROI Cao", text: "Điểm đầu vào vừa phải với nhiều ngành (22–26 điểm). Chi phí công lập. Đầu ra cực tốt nếu bạn chọn ngành tài chính/kinh tế tại TP.HCM. ROI rất cao cho phân khúc này." },
+  },
+  neu: {
+    name: "ĐH Kinh tế Quốc dân",
+    abbr: "NEU · Hà Nội · Est. 1956",
+    tier: "B",
+    tierColor: "#60a5fa",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: false, evidence: "<strong>Thiên nặng về kinh tế, quản trị, tài chính</strong>. Có thêm ngành IT, luật nhưng không đa dạng bằng ĐHQG. Chuyển sang ngành kỹ thuật gần như không khả thi." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "<strong>18–25 triệu đồng/năm</strong> cho chương trình chuẩn (2025). Đây là mức rẻ nhất trong các trường kinh tế top. Cam kết giữ ổn định học phí, từng giảm 5% giai đoạn COVID." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "<strong>Brand mạnh nhất miền Bắc trong ngành kinh tế</strong>. Nhà tuyển dụng Hà Nội cực kỳ tin tưởng NEU cho vị trí tài chính, kế toán, quản trị. Top 8 VNUR-2024." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: false, evidence: "Nghiên cứu và công bố quốc tế <strong>chưa nổi bật</strong>. Ít xuất hiện trong QS hay Scopus. Trao đổi sinh viên quốc tế hạn chế hơn các ĐHQG." },
+      { icon: "🤝", label: "Alumni & Network", pass: true, evidence: "Hàng chục nghìn cựu sinh viên đang làm việc tại ngân hàng, tài chính, nhà nước phía Bắc. <strong>Mạng lưới cực mạnh với Big4 (KPMG, Deloitte, EY, PwC) và ngân hàng</strong> ở Hà Nội." },
+    ],
+    special: { type: "note", label: "Chuyên sâu Kinh tế", text: "NEU xuất sắc nếu bạn biết chắc mình muốn ngành kinh tế tại miền Bắc. Nhưng nếu chưa chắc ngành → bất lợi vì thiếu linh hoạt chuyển đổi. Học phí rẻ nhất nhóm, đây là điểm cộng lớn." },
+  },
+  udn: {
+    name: "Đại học Đà Nẵng",
+    abbr: "UDN · Đà Nẵng · Est. 1994",
+    tier: "B",
+    tierColor: "#60a5fa",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: true, evidence: "Hệ thống gồm <strong>6 trường thành viên</strong>: Bách Khoa, Kinh tế, Sư phạm, Ngoại ngữ, CNTT-TT, Y Dược. Đa ngành tốt cho vùng miền Trung." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "<strong>10–35 triệu đồng/năm</strong> tùy chương trình (2025–2026). Nhóm ngành kỹ thuật tàu thủy, môi trường: 21.75 triệu/năm. Chi phí sinh hoạt Đà Nẵng thấp hơn HN/HCM đáng kể." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "<strong>Top 9 VNUR-2025</strong>. Thương hiệu mạnh nhất miền Trung. Doanh nghiệp FDI tại KCN Đà Nẵng (Intel, Samsung,…) ưu tiên tuyển UDN. Lợi thế địa phương cực lớn." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: false, evidence: "Chưa lọt top QS WUR thế giới. Công bố Scopus/WOS ít hơn các ĐHQG và HUST. Hợp tác quốc tế đang phát triển nhưng chưa sánh ngang top." },
+      { icon: "🤝", label: "Alumni & Network", pass: false, evidence: "Mạng lưới alumni <strong>chủ yếu trong vùng miền Trung</strong>. Ít phủ sóng tại HN hay HCM. Nếu bạn muốn làm việc ở miền Trung thì OK, nhưng ra Bắc/Nam thì hạn chế." },
+    ],
+    special: { type: "up", label: "+1 ROI cao miền Trung", text: "Điểm đầu vào thấp đến vừa, học phí rất rẻ, chi phí sinh hoạt Đà Nẵng thấp. Nếu bạn hướng tới làm việc tại miền Trung hoặc muốn tiết kiệm chi phí 4 năm → <strong>ROI cực kỳ cao</strong>." },
+  },
+  tdtu: {
+    name: "ĐH Tôn Đức Thắng",
+    abbr: "TDTU · TP.HCM · Est. 1997",
+    tier: "B",
+    tierColor: "#60a5fa",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: false, evidence: "<strong>Hơn 40 ngành</strong> nhưng thiên về kỹ thuật – kinh tế – ngôn ngữ. Ít đa dạng hơn các ĐHQG và UEH. Chuyển ngành trong trường có giới hạn." },
+      { icon: "💸", label: "Chi phí thấp", pass: false, evidence: "Chương trình tiêu chuẩn: <strong>31–36 triệu/năm</strong> (2026), tăng nhẹ 5–10%/năm. Cao hơn HUST, VNU-HN, NEU — không phải trường rẻ dù là công lập tự chủ. Ngành Dược: ~68 triệu/năm." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "Top 4–5 QS Asia 2025 (hạng 199 trong khu vực châu Á). Hợp tác doanh nghiệp tốt. TDTU được nhà tuyển dụng nhận diện tốt trong IT và kỹ thuật tại HCM." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: true, evidence: "<strong>Top QS Asia</strong> nhờ chỉ số nghiên cứu và bài báo quốc tế. Quỹ học bổng 95 tỷ đồng. Chương trình trao đổi sinh viên quốc tế và học bổng du học. Mạnh về Scopus." },
+      { icon: "🤝", label: "Alumni & Network", pass: true, evidence: "Alumni phủ tốt tại TP.HCM trong ngành kỹ thuật, IT. Mạng lưới doanh nghiệp trong nước và FDI đang mở rộng." },
+    ],
+    special: { type: "note", label: "Nghiên cứu mạnh · Chi phí vừa", text: "TDTU là trường hiếm hoi công lập tự chủ có nghiên cứu quốc tế tốt (top QS Asia) nhưng bù lại học phí cao hơn các trường công khác. <strong>Phù hợp ai muốn CV quốc tế nhưng không đủ điểm vào ĐHQG/HUST.</strong>" },
+  },
+  dtu: {
+    name: "ĐH Duy Tân",
+    abbr: "DTU · Đà Nẵng · Est. 1994",
+    tier: "C",
+    tierColor: "#c084fc",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: true, evidence: "Nhiều ngành đào tạo đa dạng: Y dược, kỹ thuật, kinh tế, ngôn ngữ, thiết kế... <strong>Tương đối linh hoạt</strong> cho một trường tư." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "Học phí tư thục nhưng ở mức <strong>vừa phải hơn FPT</strong>. Tại Đà Nẵng chi phí sinh hoạt thấp. Có học bổng từ nghiên cứu khoa học." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: false, evidence: "Brand Duy Tân <strong>chưa được nhà tuyển dụng doanh nghiệp tin tưởng cao</strong> như các trường công lập. Thứ hạng QS do nghiên cứu nổi trội, không phản ánh trực tiếp cơ hội việc làm thực tế." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: true, evidence: "<strong>#1 QS Asia 2025 trong các trường VN</strong> (hạng 127). Chiến lược nghiên cứu tích cực, nhiều bài báo Scopus. Khuyến khích SV NCKH với thưởng 100 triệu/bài báo (theo chính sách trường)." },
+      { icon: "🤝", label: "Alumni & Network", pass: false, evidence: "Alumni network <strong>chưa đủ mạnh</strong>. Trường còn trẻ (1994), chưa tạo được lớp cựu sinh viên uy tín đủ rộng để hỗ trợ người sau ra trường." },
+    ],
+    special: { type: "note", label: "QS cao ≠ CV đẹp", text: "Duy Tân đứng đầu QS Asia trong các trường VN nhờ chiến lược bài báo nghiên cứu. Tuy nhiên, nhà tuyển dụng trong nước <strong>chưa đánh giá brand Duy Tân ngang bằng ĐHQG hay HUST</strong>. Phù hợp cho người muốn nghiên cứu sinh hơn là đi làm ngay." },
+  },
+  hue: {
+    name: "Đại học Huế",
+    abbr: "HU · Thừa Thiên Huế · Est. 1957",
+    tier: "C",
+    tierColor: "#c084fc",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: true, evidence: "<strong>Hệ thống đa trường</strong>: Y Dược, Sư phạm, Luật, KHTN, KHXH-NV, Nông Lâm, Kinh tế... Rất đa dạng cho vùng Bắc Trung Bộ." },
+      { icon: "💸", label: "Chi phí thấp", pass: true, evidence: "Học phí công lập rất thấp, đặc biệt các ngành cơ bản. Chi phí sinh hoạt Huế thuộc hàng rẻ nhất cả nước. <strong>Tổng chi phí 4 năm cực thấp.</strong>" },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: false, evidence: "Brand ĐH Huế <strong>chưa đủ mạnh</strong> để cạnh tranh tại HN hay HCM. Thị trường lao động Huế hạn chế. Phù hợp làm việc trong khu vực miền Trung hoặc ngành Y, Sư phạm." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: false, evidence: "Lọt vào <strong>QS WUR 2025 lần đầu</strong> (1201-1400) và QS Asia 2025 hạng 348 — tiến bộ đáng kể nhưng vẫn khá thấp. Nghiên cứu chưa đột phá." },
+      { icon: "🤝", label: "Alumni & Network", pass: false, evidence: "Alumni <strong>chủ yếu làm việc tại miền Trung</strong>, đặc biệt trong ngành y tế và giáo dục. Mạng lưới doanh nghiệp tư nhân và FDI rất hạn chế." },
+    ],
+    special: { type: "up", label: "+1 ROI miền Trung", text: "Với chi phí thấp nhất và vị trí chiến lược cho miền Trung, ĐH Huế có ROI tốt nếu bạn định làm việc ở khu vực này. <strong>Ngành Y Dược và Sư phạm là thế mạnh rõ nhất.</strong>" },
+  },
+  fpt: {
+    name: "Đại học FPT",
+    abbr: "FPTU · HN · HCM · ĐN · CT · Est. 2006",
+    tier: "D",
+    tierColor: "#f87171",
+    criteria: [
+      { icon: "🔀", label: "Ngành linh hoạt", pass: false, evidence: "Chủ yếu <strong>CNTT, Kinh doanh, Truyền thông, Ngôn ngữ</strong>. Ít ngành kỹ thuật, không có Y Dược, Luật chuyên sâu, KHTN... Chuyển ngành nội bộ giới hạn." },
+      { icon: "💸", label: "Chi phí thấp", pass: false, evidence: "Học phí <strong>~86–115 triệu đồng/năm</strong> (2025–2026, tính 3 kỳ/năm). Đắt hơn HUST 3–4 lần, hơn NEU 4–6 lần. Đắt nhất trong số các trường được so sánh. Thêm phí dự bị tiếng Anh nếu chưa đạt IELTS 6.0." },
+      { icon: "📄", label: "CV đẹp / Việc làm", pass: true, evidence: "Kỳ thực tập OJT bắt buộc tại doanh nghiệp. <strong>Mạng lưới FPT Group</strong> (Tập đoàn 100.000+ nhân sự) hỗ trợ việc làm sau tốt nghiệp. Brand FPT mạnh trong lĩnh vực CNTT. Giảng dạy 100% tiếng Anh → CV đẹp về ngoại ngữ." },
+      { icon: "🔬", label: "Nghiên cứu & Quốc tế", pass: false, evidence: "Chính sách khuyến khích NCKH (thưởng 30tr/năm dự hội nghị) nhưng <strong>thực tế nghiên cứu yếu</strong>. Không có tên trong các bảng xếp hạng QS/THE/VNUR top. Ít hợp tác nghiên cứu quốc tế thực chất." },
+      { icon: "🤝", label: "Alumni & Network", pass: true, evidence: "Tốt nghiệp 2006 đến nay, cựu sinh viên FPT đã <strong>chiếm vai trò cao trong ngành IT</strong>. Mạng lưới FPT Software, FPT Telecom tạo cơ hội việc làm trực tiếp cho alumni." },
+    ],
+    special: { type: "down", label: "OVERRATED · −1 tier", text: "<strong>FPT làm truyền thông xuất sắc</strong> — campus đẹp, video viral, OJT hấp dẫn. Nhưng theo góc nhìn cá nhân: học phí cao gấp 3–4 lần trường công trong khi ngành học đại trà (CNTT, Kinh doanh đã bão hòa thị trường). <strong>Thiếu hoạt động nghiên cứu, thiếu đa dạng ngành</strong>. Nếu mục tiêu là ROI tối đa → nên cân nhắc kỹ." },
+    overrated: true,
+  },
+};
+
+function showDetail(id) {
+  const u = data[id];
+  if (!u) return;
+
+  document.getElementById('d-name').textContent = u.name;
+  document.getElementById('d-abbr').textContent = u.abbr;
+
+  const badge = document.getElementById('d-tier-badge');
+  badge.textContent = u.tier;
+  badge.style.background = u.tierColor + '22';
+  badge.style.color = u.tierColor;
+  badge.style.border = '2px solid ' + u.tierColor;
+
+  let html = '';
+  u.criteria.forEach(c => {
+    html += `<div class="criterion-block">
+      <div class="crit-header">
+        <span class="crit-icon">${c.icon}</span>
+        <span class="crit-label">${c.label}</span>
+        <span class="crit-status ${c.pass ? 'pass' : 'fail'}">${c.pass ? '✓ ĐẠT' : '✗ THIẾU'}</span>
+      </div>
+      <div class="crit-evidence">${c.evidence}</div>
+    </div>`;
+  });
+
+  if (u.special) {
+    const cls = u.special.type === 'up' ? 'up' : u.special.type === 'down' ? 'down' : 'note';
+    html += `<div class="special-block full">
+      <div class="crit-header">
+        <span class="crit-icon">⚡</span>
+        <span class="crit-label">Tiêu chí đặc biệt</span>
+        <span class="special-tag ${cls}">${u.special.label}</span>
+      </div>
+      <div class="${u.overrated ? 'overrated-note' : u.underrated ? 'underrated-note' : 'crit-evidence'}" style="margin-top:8px">${u.special.text}</div>
+    </div>`;
+  }
+
+  document.getElementById('d-body').innerHTML = html;
+  const panel = document.getElementById('detail-panel');
+  panel.classList.add('active');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeDetail() {
+  document.getElementById('detail-panel').classList.remove('active');
+}
+</script>
+
+<div class="footer-note">
+  Tier list này phản ánh góc nhìn cá nhân dựa trên bộ tiêu chí ROI thực tế.<br>
+  Dữ liệu học phí, xếp hạng từ VNUR-2025, QS WUR 2025, QS Asia 2025.<br>
+  <em>Không có trường nào phù hợp 100% cho tất cả mọi người — hãy đối chiếu với ngành và mục tiêu cụ thể của bạn.</em>
+</div>
+
+</body>
+</html>
